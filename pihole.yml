@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  pihole:
+    cap_add:
+      - NET_ADMIN
+    container_name: pihole
+    dns:
+    - 127.0.0.1
+    - 1.1.1.1
+    environment:
+      TZ: Europe/Bucharest
+      WEBPASSWORD: "${PIHOLE_WEBPASSWORD}"
+    image: pihole/pihole:latest
+    ports:
+    - 53:53/tcp
+    - 53:53/udp
+    - 67:67/udp
+    - 80:80/tcp
+    - 443:443/tcp
+    restart: unless-stopped
+    volumes:
+    - "${DOCKER_VOLUMES_HOME}/pihole/etc-pihole:/etc/pihole:rw"
+    - "${DOCKER_VOLUMES_HOME}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d:rw"
